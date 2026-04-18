@@ -1,0 +1,128 @@
+<div style="padding: 32px; max-width: 1100px; margin: auto;">
+  <mat-card style="padding: 24px; margin-bottom: 24px;">
+    <h2 style="margin-top: 0;">Employee Pairs Analyzer</h2>
+
+    <div style="display: flex; gap: 16px; margin-top: 16px; align-items: center; flex-wrap: wrap;">
+      <input type="file" accept=".csv" (change)="onFileSelected($event)" />
+
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="onUpload()"
+        [disabled]="!selectedFile || isLoading"
+      >
+        Upload
+      </button>
+    </div>
+
+    <mat-card *ngIf="selectedFile" style="margin-top: 16px; padding: 12px;">
+      <p style="margin: 0;">
+        Selected file: <strong>{{ selectedFile.name }}</strong>
+      </p>
+    </mat-card>
+
+    <mat-card *ngIf="errorMessage" style="margin-top: 16px; padding: 12px; background-color: #ffebee;">
+      <p style="margin: 0; color: #c62828;">
+        {{ errorMessage }}
+      </p>
+    </mat-card>
+
+    <div *ngIf="isLoading" style="display: flex; justify-content: center; margin-top: 20px;">
+      <mat-spinner diameter="40"></mat-spinner>
+    </div>
+  </mat-card>
+
+  <mat-card *ngIf="result" style="padding: 24px; margin-bottom: 24px;">
+    <h3 style="margin-top: 0;">Top Pair</h3>
+
+    <div style="display: flex; gap: 32px; flex-wrap: wrap; margin-top: 16px;">
+      <div>
+        <strong>Employee #1</strong><br />
+        {{ result.topEmployeeId1 }}
+      </div>
+
+      <div>
+        <strong>Employee #2</strong><br />
+        {{ result.topEmployeeId2 }}
+      </div>
+
+      <div>
+        <strong>Total Days</strong><br />
+        {{ result.totalDaysWorkedTogether }}
+      </div>
+    </div>
+  </mat-card>
+
+  <mat-card *ngIf="errorDataSource.data.length > 0" style="padding: 24px; margin-bottom: 24px;">
+    <h3 style="margin-top: 0;">Validation Errors</h3>
+
+    <table mat-table [dataSource]="errorDataSource" matSort style="width: 100%; margin-top: 16px;">
+
+      <ng-container matColumnDef="rowNumber">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header style="font-weight: bold;">Row</th>
+        <td mat-cell *matCellDef="let error">{{ error.rowNumber }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="rowContent">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header style="font-weight: bold;">Content</th>
+        <td mat-cell *matCellDef="let error">{{ error.rowContent }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="errorMessage">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header style="font-weight: bold;">Message</th>
+        <td mat-cell *matCellDef="let error" style="color: #b71c1c;">
+          {{ error.errorMessage }}
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="errorDisplayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: errorDisplayedColumns;"></tr>
+    </table>
+
+    <mat-paginator
+      #errorsPaginator
+      [pageSize]="5"
+      [pageSizeOptions]="[5, 10, 20]"
+      showFirstLastButtons
+      style="margin-top: 16px;">
+    </mat-paginator>
+  </mat-card>
+
+  <mat-card *ngIf="dataSource.data.length > 0" style="padding: 24px;">
+    <h3 style="margin-top: 0;">Common Projects</h3>
+
+    <table mat-table [dataSource]="dataSource" style="width: 100%; margin-top: 16px;">
+
+      <ng-container matColumnDef="employeeId1">
+        <th mat-header-cell *matHeaderCellDef style="font-weight: bold;">Employee ID #1</th>
+        <td mat-cell *matCellDef="let row">{{ row.employeeId1 }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="employeeId2">
+        <th mat-header-cell *matHeaderCellDef style="font-weight: bold;">Employee ID #2</th>
+        <td mat-cell *matCellDef="let row">{{ row.employeeId2 }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="projectId">
+        <th mat-header-cell *matHeaderCellDef style="font-weight: bold;">Project ID</th>
+        <td mat-cell *matCellDef="let row">{{ row.projectId }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="daysWorked">
+        <th mat-header-cell *matHeaderCellDef style="font-weight: bold;">Days Worked</th>
+        <td mat-cell *matCellDef="let row">{{ row.daysWorked }}</td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <mat-paginator
+      #projectsPaginator
+      [pageSize]="5"
+      [pageSizeOptions]="[5, 10, 20]"
+      showFirstLastButtons
+      style="margin-top: 16px;">
+    </mat-paginator>
+  </mat-card>
+</div>
