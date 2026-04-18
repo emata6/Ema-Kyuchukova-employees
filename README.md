@@ -48,6 +48,10 @@ Make sure you have installed:
 * .NET SDK
 * Node.js
 * Angular CLI
+You can check with:
+1) node -v
+2) ng version
+3) npm install -g @angular/cli
 
 => Backend:
 1) cd EmployeePairs.Api 
