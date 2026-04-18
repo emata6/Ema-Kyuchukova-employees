@@ -50,13 +50,13 @@ Make sure you have installed:
 * Angular CLI
 
 => Backend:
-cd EmployeePairs.Api
-dotnet restore
-dotnet run
+1) cd EmployeePairs.Api 
+2) dotnet restore
+3) dotnet run
 
 => Frontend
-cd employee-pairs-ui
-npm install
-ng serve
+1) cd employee-pairs-ui
+2) npm install
+3) ng serve
 
 You can test with the exmaple file
